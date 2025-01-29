@@ -8,7 +8,11 @@ on:
 jobs:
   push_image:
     runs-on: ubuntu-latest  # Run the job on an Ubuntu environment
-    permissions: write-all
+    permissions: 
+      contents: read  # Allow the action to read repository contents (checkout)
+      #id-token: write  # Allow OIDC-based authentication
+      actions: write  # For GitHub actions permissions
+      ecr: write  # Grant permissions to push to ECR
 
     steps:
       - name: Checkout code
@@ -28,7 +32,7 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build -t testecr:latest ./  # Build the image with the correct tag (testecr:latest)
-      
+
       - name: Tag Docker Image for ECR
         run: |
           docker tag testecr:latest public.ecr.aws/m0h2p2z6/testecr:latest  # Tag it for ECR
@@ -36,4 +40,3 @@ jobs:
       - name: Push Docker Image to Amazon ECR Public
         run: |
           docker push public.ecr.aws/m0h2p2z6/testecr:latest  # Push the correctly tagged image to ECR
-########
