@@ -1,0 +1,29 @@
+name: Push Local Docker Image to ECR
+
+on:
+  push:
+    branches:
+      - main  # Trigger the action on push to the 'main' branch
+
+jobs:
+  push_image:
+    runs-on: ubuntu-latest  # Run the job on an Ubuntu environment
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3  # Checkout the repository code
+
+    - name: Log in to Amazon ECR Public
+      uses: aws-actions/amazon-ecr-login@v1  # Action to authenticate to Amazon ECR
+      with:
+        region: us-east-1  # Specify your AWS region
+
+    - name: Tag Local Image
+      run: |
+        # Tag the local image with the ECR public repository URI
+        docker tag latest public.ecr.aws/m0h2p2z6/testecr:latest
+
+    - name: Push Docker image to Amazon ECR Public
+      run: |
+        # Push the image to your public ECR repository
+        docker push public.ecr.aws/m0h2p2z6/testecr:latest
