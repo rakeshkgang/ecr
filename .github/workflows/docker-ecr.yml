@@ -39,3 +39,4 @@ jobs:
         run: |
           # Push the image to your public ECR repository
           docker push public.ecr.aws/m0h2p2z6/testecr:latest
+###
