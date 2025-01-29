@@ -28,15 +28,12 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t nginx:latest ./
+          docker build -t testecr:latest ./  # Build the image with the correct tag (testecr:latest)
       
-      - name: Tag Docker Image
+      - name: Tag Docker Image for ECR
         run: |
-          docker tag nginx:latest 924144197303.dkr.ecr.us-east-1.amazonaws.com/dev:latest
+          docker tag testecr:latest public.ecr.aws/m0h2p2z6/testecr:latest  # Tag it for ECR
 
-      
-      - name: Push Docker image to Amazon ECR Public
+      - name: Push Docker Image to Amazon ECR Public
         run: |
-          # Push the image to your public ECR repository
-          docker push public.ecr.aws/m0h2p2z6/testecr:latest
-#######
+          docker push public.ecr.aws/m0h2p2z6/testecr:latest  # Push the correctly tagged image to ECR
