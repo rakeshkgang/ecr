@@ -9,6 +9,7 @@ jobs:
   push_image:
     runs-on: ubuntu-latest  # Run the job on an Ubuntu environment
     permissions: write-all
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3  # Checkout the repository code
@@ -25,10 +26,10 @@ jobs:
         with:
           region: us-east-1  # Specify your AWS region
 
-      - name: Tag Local Image
+      - name: Tag Local Image by Digest
         run: |
-          # Tag the local image with the ECR public repository URI
-          docker tag latest public.ecr.aws/m0h2p2z6/testecr:latest
+          # Tag the local image with the ECR public repository URI using the digest
+          docker tag sha256:e49b2893e997eeda7716bd7f3b2ed60aac69faa4041a4a3b88fb885609703cbb public.ecr.aws/m0h2p2z6/testecr:latest
 
       - name: Push Docker image to Amazon ECR Public
         run: |
