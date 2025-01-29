@@ -26,11 +26,15 @@ jobs:
         with:
           region: us-east-1  # Specify your AWS region
 
-      - name: Tag Local Image by Digest
+      - name: Build Docker Image
         run: |
-          # Tag the local image with the ECR public repository URI using the digest
-          docker tag sha256:e49b2893e997eeda7716bd7f3b2ed60aac69faa4041a4a3b88fb885609703cbb public.ecr.aws/m0h2p2z6/testecr:latest
+          docker build -t nginx:latest ./
+      
+      - name: Tag Docker Image
+        run: |
+          docker tag nginx:latest 924144197303.dkr.ecr.us-east-1.amazonaws.com/dev:latest
 
+      
       - name: Push Docker image to Amazon ECR Public
         run: |
           # Push the image to your public ECR repository
